@@ -1,0 +1,615 @@
+
+Subject: Blueprint for "Trader's Friend" - An AI-Guided Intelligent Trading & Learning System
+
+-----
+
+ 1. Executive Summary: "Trader's Friend" - The Vision Behind the Innovation
+
+Namaste Agent,
+
+Hum ek revolutionary trading platform, "Trader's Friend" (Trader's Friend) develop karne ka prastaav rakhte hain. Yeh ek aisa avant-garde system hoga jo keval trading signals generate nahi karega, balki ek comprehensive AI-guided learning aur execution ecosystem ke roop mein kaam karega. Hamara lakshya ek aisa platform banana hai jo free, real-time data-driven, AI-guided, Hindi-language supportive, signal-based, emotion-handling, paper/live trading compatible, notification-rich, aur ek intuitive, aesthetically pleasing UI se yukt ho.
+
+Iss proposal mein, hum "Trader's Friend" ke har ek module ko 100+ points mein detail karenge, jisme uski core functionality, technical implementation, resources, benefits, aur scalability shamil hai. Hamara focus deep-dive analysis, strategic decision-making, aur emotional resilience ko foster karna hai, khaas kar ke retail traders ke liye. Yeh project traders ko "data-driven insights" ke saath "insani samajh" ka fusion pradaan karega, jo unhe bazaar ki gaharaiyon ko samajhne mein madad karega.
+
+-----
+
+ 2. Introduction: Reimagining Trading & Learning with "Trader's Friend"
+
+Bazaar mein anek trading platforms maujood hain, lekin unmein se bahut kam aise hain jo learning, emotional discipline, aur real-time intelligent guidance ko ek saath pradaan karte hain. Hamara "Trader's Friend" isi gap ko fill karega. Yeh ek aisi pranaali hai jo ek aam vyakti ko bhi, jise trading ki zyada samajh nahi, AI ki madad se bazaar ke daao-pech sikhane aur samajhne mein saksham banayegi.
+
+Project Ka Mool Uddeshya:
+
+   Gyan ka Prasaar (Knowledge Dissemination): Traders ko bazaar ke technical aur fundamental aspects ko saral Hindi bhasha mein samjhana.
+   Aatmanirbhar Nirnay (Self-Reliant Decision-Making): AI-guided salah ke saath traders ko apne nirnay khud lene ke liye shashakt karna.
+   Emotional Resilience (Bhaavnaatmak Dridhata): Lalach aur dar jaise trading mein common emotions ko Gemini ke calm, analytical feedback ke through manage karna.
+   Risk-Free Learning (Jokhim-Mukt Shiksha): Paper trading mode ke through vaastavik paisa khoe bina trading strategies ko test karna.
+   Seamless Transition (Smooth Badlaav): Paper trading se live trading tak ka safar aatma-vishwas ke saath طے karna.
+
+"Trader's Friend" sirf ek tool nahi, balki ek "saathi" hai jo har kadam par aapke saath rahega, aapko sikhaega, aur sahi disha dikhaega.
+
+-----
+
+ 3. Module 1: Data Acquisition & Infrastructure - "Bazaar Ka Dil"
+
+Yeh module "Trader's Friend" ki aatma hai, jo real-time aur historical market data ko ek seamless tareeke se pradaan karega. Accurate aur timely data ke bina, koi bhi trading system adhura hai.
+
+ 3.1 Real-time Data Streaming (Live Bazaar Ki Dhadkan)
+
+1.  Primary Data Source Integration (Angel One SmartAPI):
+       Angel One SmartAPI (WebSockets) ka upyog karke real-time, tick-by-tick data stream kiya jaega.
+       Yeh API reliability, speed, aur broad instrument coverage ke liye chuna gaya hai.
+2.  Instrument Subscription Management:
+       Users ko apni custom watchlist mein instruments add karne ki suvidha hogi.
+       Selected instruments (stocks, indices, F\&O) ke liye dynamic WebSocket subscriptions.
+       Server-side data filtering aur routing, jisse keval relevant data process ho.
+3.  Data Ingestion & Buffering:
+       Incoming ticks ko ek high-performance queue (e.g., Python `collections.deque` or a more robust message queue like Redis Pub/Sub for scalability) mein store kiya jaega.
+       Memory-efficient data structures ka upyog taaki performance par asar na pade.
+4.  Data Validation & Error Handling:
+       Har incoming data point ki integrity check ki jaegi (e.g., missing values, invalid timestamps).
+       Connection drops ya API rate limits ko gracefully handle karne ke liye retry mechanisms.
+       Dedicated logging for data acquisition issues.
+5.  Multi-Timeframe Candlestick Generation:
+       Raw tick data se 1-minute, 5-minute, 15-minute, 1-hour, aur daily OHLCV (Open, High, Low, Close, Volume) candlesticks real-time mein generate kiye jaenge.
+       Har candlestick close par indicators recalculate honge.
+       User-defined custom timeframes (e.g., Heikin-Ashi) ke liye future support ka pravdhan.
+6.  Data Storage (Hybrid Approach):
+       In-Memory Storage (Pandas DataFrames): Recent candlestick data (e.g., last 200-500 candles) ko har instrument ke liye Pandas DataFrames mein store kiya jaega, for quick indicator calculation.
+       Local Persistent Storage (SQLite): Longer historical data (e.g., last 3-6 months) ko local SQLite database mein store kiya jaega for backtesting aur UI display.
+       Data redundancy aur recovery mechanisms.
+
+ 3.2 Historical Data Management (Atit Ki Gehraiyan)
+
+1.  Initial Historical Data Fetch:
+       System startup par ya jab koi naya instrument add kiya jae, Angel One API se historical OHLCV data (pre-defined length) fetch kiya jaega.
+       API rate limits ka dhyaan rakhte hue intelligent fetching logic.
+2.  Continuous Historical Data Update:
+       Daily basis par EOD (End Of Day) historical data ko update kiya jaega.
+       Data gaps ko identify aur fill karne ka mechanism.
+3.  Instrument Master Data:
+       Angel One se complete instrument list (NSE, BSE, F\&O) ko fetch karke local SQLite DB mein store kiya jaega.
+       Yeh instrument symbol lookup, filtering, aur overall market breadth analysis ke liye essential hai.
+4.  Optimized Data Retrieval for Backtesting:
+       Backtesting module ke liye, historical data ko efficient tareeke se query karne ke liye indexed SQLite tables ka upyog.
+       Large datasets ke liye chunked reading.
+
+ 3.3 Resource Requirements for Module 1:
+
+1.  Angel One Trading Account & SmartAPI Registration: (Client ID, Password, API Key, API Secret/Token).
+2.  2FA Setup: TOTP generator (Google Authenticator) for secure login.
+3.  Python Environment:
+       Python 3.9+ installed.
+       `smartapi-python` SDK (`pip install smartapi`).
+       Standard libraries: `requests`, `json`, `datetime`, `logging`.
+       Data structures: `pandas`, `numpy`.
+4.  Internet Connection: Stable, high-speed connection for real-time data.
+5.  Compute Resources: Moderate CPU usage for data processing, sufficient RAM for in-memory DataFrames.
+
+ 3.4 Benefits of Module 1:
+
+1.  Zero-Delay Signals: Real-time data ensures that signals are generated with minimal latency.
+2.  Multi-Timeframe Analysis: Flexibility to analyze markets across different timeframes, catering to various trading styles (scalping, intraday, swing).
+3.  Comprehensive Coverage: Nifty, BankNifty, MidCap, Sensex, aur individual stocks ki complete coverage.
+4.  Reliability: Robust error handling aur data validation ensures data integrity.
+5.  Scalability: Modular design allows for easy addition of new data sources or instruments in the future.
+
+-----
+
+ 4. Module 2: Backend - "Bazaar Ka Dimaag"
+
+Yeh module "Trader's Friend" ka core intelligence engine hai, jahan raw data ko process karke meaningful insights aur trading signals mein badla jaega. Yahan 50+ strategies aur AI integration ka foundation rakha jaega.
+
+ 4.1 Core Processing Engine (Python-based Logic)
+
+1.  Modular Python Codebase:
+       Each indicator, strategy, and utility function ko separate Python modules ya classes mein encapsulate kiya jaega for maintainability aur reusability.
+       Clean, well-documented code with type hints.
+2.  Dependency Management:
+       `requirements.txt` file for all Python dependencies.
+       Virtual environment (`venv`) setup for isolated development.
+3.  Configuration Management (`.env` & Config Files):
+       Sensitive API keys (`ANGEL_API_KEY`, `GEMINI_API_KEY`, `TELEGRAM_BOT_TOKEN`) ko `.env` file mein securely store kiya jaega.
+       Strategy parameters, notification settings, UI themes, aur other dynamic configurations ko JSON/YAML files mein store kiya jaega. Yeh UI se runtime par edit kiye ja sakte hain.
+4.  Scheduled Task Runner:
+       `schedule` library or `APScheduler` ka upyog karke periodic tasks (e.g., indicator recalculations, market trend analysis, daily reports) ko manage kiya jaega.
+       Non-blocking execution for real-time responsiveness.
+5.  Robust Logging System:
+       Python's `logging` module ka upyog karke detailed logs generate kiye jaenge:
+           `INFO`: General system activity, data updates, successful operations.
+           `WARNING`: Minor issues, potential problems.
+           `ERROR`: Function failures, API errors.
+           `CRITICAL`: System-level failures.
+       Separate log files for different components (e.g., `data.log`, `strategy.log`, `trades.log`, `gemini.log`, `errors.log`).
+       Log rotation mechanism for efficient disk usage.
+
+ 4.2 Technical Indicator Library (50+ Indicators Ready for Use)
+
+`pandas_ta` aur `ta-lib` jaise robust libraries ka upyog karke, ham 50 se adhik technical indicators ko implement karenge. Har indicator configurable hoga.
+
+1.  Moving Averages (MA):
+       SMA (Simple), EMA (Exponential), WMA (Weighted), HMA (Hull), VWAP (Volume Weighted Average Price).
+       Customization: Lengths (e.g., 10, 20, 50, 100, 200 for SMAs/EMAs) user-adjustable.
+       Rules: Price crossovers, MA crossovers.
+2.  Momentum Indicators:
+       RSI (Relative Strength Index): Overbought/Oversold levels, divergence.
+       MACD (Moving Average Convergence Divergence): Crossover, histogram analysis.
+       Stochastic Oscillator: %K, %D lines, overbought/oversold.
+       ADX (Average Directional Index): Trend strength and direction.
+       CCI (Commodity Channel Index), ROC (Rate of Change), Momentum.
+       Customization: Periods (e.g., RSI 14, Stoch K/D 14/3), thresholds (e.g., RSI 70/30).
+3.  Volatility Indicators:
+       Bollinger Bands (BBANDS): Squeeze, breakouts, mean reversion.
+       ATR (Average True Range): Volatility measurement, stop-loss placement.
+       Keltner Channels, Donchian Channels.
+       Customization: Period, standard deviations (for BBANDS), multiplier (for Keltner).
+4.  Trend Indicators:
+       Supertrend: Trend identification and reversal points.
+       Ichimoku Cloud: Comprehensive trend and support/resistance system.
+       Parabolic SAR (PSAR): Trailing stop-loss, trend reversal.
+       Customization: Period, multiplier (for Supertrend), various Ichimoku parameters.
+5.  Volume Indicators:
+       OBV (On-Balance Volume), CMF (Chaikin Money Flow), A/D Line (Accumulation/Distribution).
+       Customization: Periods.
+6.  Support & Resistance (S\&R):
+       Dynamic calculation of Pivot Points (Classic, Fibonacci, Camarilla).
+       Identification of significant Swing Highs/Lows.
+       Volume Profile analysis (Point of Control, Value Area) for key S\&R zones (advanced).
+       Rules: Price action near S\&R levels.
+7.  Candlestick Pattern Recognition:
+       Automatic detection of popular candlestick patterns (Doji, Hammer, Engulfing, Morning Star, Evening Star, Pin Bar etc.) using pattern recognition logic on OHLC data.
+       Integration with strategy rules (e.g., "Buy on Bullish Engulfing at Support").
+8.  Multi-Timeframe Analysis (MTFA):
+       Indicators calculated across multiple timeframes (e.g., 5-min, 15-min, 1-hour, Daily) to confirm signals and trend strength.
+       Confluence scoring based on MTFA alignment.
+
+ 4.3 Strategy Engine & Rule Implementation (50+ Dynamic Strategies)
+
+Strategy engine har indicator ko combine karke trading rules banayega. Yeh system highly configurable hoga.
+
+1.  Pre-defined Strategies:
+       Initial set of 50+ popular strategies (e.g., "RSI Overbought/Oversold", "MACD Crossover", "Supertrend Following", "VWAP Breakout").
+       Each strategy will have its default parameters.
+2.  Custom Strategy Builder (User-Defined Logic):
+       UI-based interface jahan users custom strategies define kar sakein.
+       Rule Definition Language: Simple, human-readable rule definition (e.g., "IF RSI \> 70 AND Supertrend is BUY AND Close \> VWAP THEN BUY").
+       Logical operators (AND, OR, NOT) aur comparison operators (\>, \<, =, \>=, \<=).
+       Ability to combine multiple indicators and patterns.
+       Save, load, edit, aur delete custom strategies.
+3.  Confluence Scoring & Confidence Levels:
+       Har potential signal ko ek "confidence score" assign kiya jaega, based on how many rules/indicators align.
+       Example: Agar RSI, Supertrend, VWAP, aur MA crossover sab BUY indicate kar rahe hain, toh high confidence score.
+       User-adjustable confidence threshold for signal generation. (`min_confluence_score` parameter).
+       This directly addresses the "5-6 taraf se bejod sanket" requirement.
+4.  Signal Generation Logic:
+       Automatic generation of `BUY`, `SELL`, `HOLD` signals.
+       Each signal will include a concise, data-backed `Reason` string highlighting the key factors.
+       Dynamic calculation of `Entry Range`, `Target Profit (Tgt1, Tgt2)`, `Stop-Loss (SL)` based on the activated strategy and market volatility (e.g., using ATR, S\&R levels, R:R ratios).
+       Risk/Reward Ratio Calculation: Har trade signal ke liye R:R ratio display kiya jaega.
+5.  Market Trend Classifier:
+       Major indices (Nifty, Bank Nifty, Sensex) par MTFA aur key indicators (200 EMA, Supertrend) run karke overall market trend ko classify karega: `Strong Bullish`, `Moderate Bullish`, `Sideways`, `Moderate Bearish`, `Strong Bearish`.
+       Yeh information signal generation ko filter aur AI guidance ko context provide karegi.
+
+ 4.4 Scanner & Filtering Engine (Opportunity Spotter)
+
+1.  Real-time Scanning:
+       User's watchlist ya pre-defined universe of stocks/indices ko continuous scan karega.
+       Har naye candlestick formation par scanning logic trigger hoga.
+2.  Customizable Scan Criteria:
+       UI se users apni specific scanning criteria define kar sakein (e.g., "Stocks with RSI between 60-70 and Supertrend BUY, and Volume \> 2x average").
+       Pre-built popular scans: "Breakout Candidates," "High Volume Gainers," "Overbought/Oversold," "Golden/Death Crossovers."
+3.  Shortlisting & Prioritization:
+       Scanning results ko strength of signal aur confidence score ke basis par prioritize karega.
+       Top N signals ko UI par display karega aur notifications trigger karega.
+
+ 4.5 Trading Execution Logic (Paper vs. Live)
+
+1.  Mode Toggle: Clear UI switch between `PAPER TRADING` and `LIVE TRADING`.
+2.  Paper Trading Simulation:
+       When `is_live_mode = False`, all trade actions (entry, SL hit, TP hit, exit) ko simulate kiya jaega.
+       Trades ko `SQLite` database mein detailed logs ke saath store kiya jaega: `Entry Time`, `Entry Price`, `Exit Time`, `Exit Price`, `P&L`, `Reason for Exit`, `Strategy Used`.
+       Virtual portfolio balance aur P\&L calculations.
+3.  Live Trading Execution (Angel One SmartAPI):
+       When `is_live_mode = True`, `smartapi-python` SDK ka use karke actual market orders (MIS/CNC, Limit/Market/SL-M orders) place kiye jaenge.
+       Order status tracking (pending, executed, rejected, cancelled).
+       Position management: Real-time tracking of open positions, current P\&L, stop-loss, and target.
+       Error handling for API execution failures.
+4.  Trade Management:
+       Entry Strategy: Immediate execution or pending orders (Limit orders) based on strategy.
+       Stop-Loss (SL) Management:
+           Dynamic SL: Calculation based on ATR, recent swing lows/highs, or percentage.
+           Trailing SL: SL ko profit ke saath move karna to protect gains.
+           UI Customization: Users can manually adjust SL levels.
+       Target Profit (TP) Management:
+           Multi-Target: Tgt1, Tgt2 (e.g., 50% position at Tgt1, remaining at Tgt2).
+           R:R Ratio Based: TP set based on pre-defined Risk/Reward ratios (e.g., 1:2, 1:3).
+           Indicator-Based: TP trigger on indicator reversals (e.g., RSI overbought, MACD crossover).
+       Time-Based Exits: Position exit agar market close time ya pre-defined duration tak target/SL hit na ho.
+       Reversal Signal Exit: Exit if a strong counter-trend signal appears.
+5.  Confidence-Based Execution:
+       Live trades sirf tab execute honge jab signal confidence score user-defined threshold (e.g., 80% confidence or 5+ matching indicators) se upar ho. Yeh emotional trading ko kam karega.
+
+ 4.6 Resource Requirements for Module 2:
+
+1.  Python 3.9+: Core programming language.
+2.  Python Libraries:
+       `pandas`, `numpy`: Data manipulation.
+       `pandas_ta`, `ta-lib`: Technical analysis.
+       `datetime`, `schedule`, `math`: Core utilities.
+       `sqlite3`: Local trade logs and master data.
+       `python-dotenv`: Environment variable management.
+       `logging`: Comprehensive system logging.
+3.  Configuration Files: JSON/YAML for strategies, settings.
+4.  Error Log File: For debugging and issue tracking.
+5.  Compute Resources: High CPU usage during real-time processing and backtesting, sufficient RAM for dataframes.
+
+ 4.7 Benefits of Module 2:
+
+1.  Dynamic & Intelligent Analysis: Backend provides sophisticated, real-time market analysis.
+2.  Highly Customizable Strategies: Users can create, adjust, and optimize their own trading rules.
+3.  Automated Signal Generation: Reduces manual analysis, provides timely signals.
+4.  Robust Backtesting: Allows thorough evaluation of strategies before live deployment, building confidence.
+5.  Enhanced Decision Making: Confluence scoring and detailed reasons empower users to make informed choices.
+6.  Scalability: Modular design allows for easy addition of new indicators or complex strategies.
+
+-----
+
+ 5. Module 3: User Interface (UI) - "Trader's Friend Ka Chehra"
+
+"Trader's Friend" ka UI ekdum sundar, intuitive, aur dil se banaya gaya hoga. Iska focus simplicity, clarity, aur emotional support par hoga.
+
+ 5.1 UI Framework Selection & Architecture:
+
+1.  Streamlit (Preferred):
+       Rapid Development: Data science aur ML apps ke liye ideal, quickly translate backend logic to interactive UI.
+       Simplicity: Minimal frontend coding required, focus remains on Python backend.
+       Community Support: Large and active community.
+       Deployment Ease: Relatively straightforward deployment on cloud platforms.
+2.  Optional: Dash by Plotly (For Advanced Visualizations):
+       Agar extremely custom interactive dashboards ya complex multi-page applications ki zaroorat padi.
+       More control over layout aur callback functions.
+3.  Modular UI Components:
+       Har UI section (Dashboard, Live Monitor, Strategy Builder, Backtesting) ko separate Streamlit pages ya functions mein organize kiya jaega.
+       Shared components (e.g., header, sidebar, footer) for consistency.
+4.  Responsive Design:
+       UI mobile aur desktop dono par achhe se render ho, for accessibility on the go.
+
+ 5.2 Key UI Features & Design Principles:
+
+1.  Main Dashboard (Home Screen - "Aapki Trading Duniya Ek Nazar Mein"):
+       Grand Entrance: Screen khulte hi ek welcoming message aur clear, concise overview mile.
+       Overall Market Trend Indicator: Prominent, color-coded (Green/Red/Yellow) display for current market sentiment (e.g., "बाजार का रुझान: मजबूत तेजी 📈"). This will be visually striking.
+       "Aaj Ke Top Signals": Scanner se generate hue high-confidence signals ki list, bold mein instrument name, signal type (BUY/SELL), entry/SL/TP ranges. Push notification style mein display.
+       Live P\&L & Portfolio Summary: Real-time P\&L (for current open trades) aur virtual/actual portfolio balance. Clear distinction for Paper vs. Live.
+       "Learning Tip of the Day": Gemini dwara generate kiya gaya daily trading tip, fresh har din.
+       Quick Action Buttons: "Strategy Builder," "Backtest," "Live Monitor" jaise key sections par direct navigation.
+       Emotional Wellness Message: "शांत रहें, डेटा पर भरोसा करें।" jaise reinforcing messages.
+2.  Live Market Monitor ("Bazaar Ki Naadi"):
+       Customizable Watchlist: Users can add/remove instruments, display LTP, % Change, Volume, and real-time indicator values (RSI, Supertrend status, VWAP).
+       Interactive Candlestick Charts:
+           `Plotly.express` ya `mplfinance` ka upyog karke beautiful, interactive candlestick charts.
+           Indicator Overlays: Users can toggle on/off various indicators (MA, Bollinger Bands, Supertrend, Volume) directly on the chart.
+           Dynamic S\&R Levels: Auto-calculated S\&R zones prominently displayed on the chart.
+           Signal Plotting: Generated BUY/SELL signals ko entry/exit points ke saath chart par plot karna.
+       Real-time News Feed (Optional, Advanced): Relevant market news integration.
+3.  Scanner & Signal Generator ("Mauka Dhoondne Wala"):
+       Intuitive Filter Builder: Drag-and-drop or dropdowns for building custom scanning criteria (e.g., "RSI is between X and Y," "Volume is \> Z").
+       Pre-set Scan Filters: Popular screening options (e.g., "Golden Crossover," "Overbought Stocks," "Fresh Breakouts").
+       Live Scan Results: Tabular display of instruments meeting the criteria, with key metrics and a "View Chart" button.
+4.  Trading Panel ("Trade Karo, Seekho"):
+       Paper/Live Mode Toggle: Prominent, clearly labeled switch.
+       Order Entry Form: Clean form for entering trade details (Symbol, Quantity, Order Type, Limit/Stop Price, SL, TP).
+       Open Positions Table: Real-time view of active trades, including Entry Price, Current Price, P\&L, SL, TP, and time in trade.
+       Trade History Log: Comprehensive log of all past trades (paper and live), with detailed results and reasons for exit.
+       Cumulative P\&L Graph: Visual representation of cumulative profit/loss over time.
+5.  Strategy Builder & Customizer ("Apni Ran-Niti Banaao"):
+       List of 50+ Strategies: Display all available pre-built strategies with their descriptions.
+       Enable/Disable Toggle: Each strategy ko ON/OFF karne ka option.
+       Parameter Adjusters: Sliders or input fields for each strategy's parameters (e.g., RSI period, Supertrend multiplier, MA lengths).
+       Custom Rule Editor: A user-friendly interface (e.g., visual block-based or simple text field) to define custom entry/exit rules based on indicators.
+       Save/Load Custom Strategies: User-defined strategies ko save aur load karne ki suvidha.
+6.  Backtesting Panel ("Samay Yatra Karo"):
+       Time-Travel Interface:
+           Symbol Selector: Dropdown for selecting instrument.
+           Date Picker: Calendar widget for `Start Date` (allowing historical time travel).
+           Time Range Selector: Input fields for `Start Time` and `End Time` (within a day).
+           Timeframe Selector: Dropdown for candle timeframe (1m, 5m, 15m, etc.).
+           Strategy Selector: Dropdown to choose any pre-defined or custom strategy.
+           "Run Backtest" Button: Prominent button to initiate the simulation.
+       Comprehensive Report Display:
+           Performance Summary: Total P\&L, Win Rate, Loss Rate, Profit Factor, Max Drawdown for the backtested period.
+           Signals Generated Log: Detailed log of every signal that would have been generated: `Signal Time`, `Instrument`, `Signal Type`, `Suggested Entry`, `Suggested SL`, `Suggested TP`, and the full `Reason` string.
+           Individual Trade Execution Details: For each simulated executed trade: `Entry Time`, `Entry Price`, `Exit Time`, `Exit Price`, `P&L`, `Reason for Exit`. This directly answers "price of kharid and sell" and profit.
+           P\&L Curve Chart: Visual representation of performance over the backtested period.
+       Summary Message: Concise textual summary of the backtest's performance.
+7.  Settings Panel ("Aapki Pasand"):
+       API Credential Input: Initial setup ke liye secure API key entry (only first time, then stored securely).
+       Notification Preferences: Telegram ON/OFF, Chat ID setup.
+       Audio Alert Settings: Toggle ON/OFF sounds, select custom sound files for different events (Buy, Sell, Danger, SL Hit, TP Hit).
+       Default Timeframe Setting: For overall system.
+       UI Theme Selector: Light/Dark mode, color accent customization.
+
+ 5.3 Aesthetic & Emotional UI Design (Colors, Sounds, & Hindi)
+
+1.  Color-Coded Visuals:
+       Green (📈): Bullish sentiment, Buy signals, Profit.
+       Red (📉): Bearish sentiment, Sell signals, Loss, Danger.
+       Yellow/Orange (⚠️): Sideways, Neutral, Warning/Alert.
+       Consistent use of these colors across charts, indicators, and status panels.
+2.  Sound Alerts (Using `playsound` or `pygame`):
+       Strong BUY Signal: A pleasant, distinct chime sound.
+       Strong SELL Signal: A different, but equally clear chime.
+       Market Danger Alert: An urgent, but not alarming, sound (e.g., a short, low-frequency buzz).
+       SL Hit: A distinct, somber sound.
+       TP Hit: A satisfying "cha-ching" sound.
+       Running Smooth/Good: A gentle, positive chime.
+       Running in Bad: A subtle, warning sound.
+       User-customizable sound files (MP3/WAV).
+3.  Hindi Language Focus & Panic-Free Messaging:
+       All UI text, labels, button text, and especially AI-generated advice will be primarily in Hinglish or clear Hindi.
+       Emotion-Friendly Language: AI advice will avoid definitive, overly assertive phrases like "ye bilkul upar jayga hi jayga." Instead, it will use phrases like:
+           "संकेत बेहद मजबूत हैं, संभावना अधिक है।" (Signals are very strong, probability is high.)
+           "जोखिम अधिक है, सतर्क रहें।" (Risk is high, be cautious.)
+           "अपनी योजना का पालन करें और भावनाओं में न बहें।" (Follow your plan and don't get carried away by emotions.)
+           "छोटे लाभ भी बड़े लाभ का हिस्सा होते हैं, धैर्य रखें।" (Small profits are also part of big profits, be patient.)
+       Consistent disclaimer on all trade signals: "केवल पेपर ट्रेड और एजुकेशन पर्पस के लिए | \study\_purpose | Important Note: We are not SEBI registered. Any trade updates are only for educational purposes. Always Remember: Investment is subject to market risk. Make sure to do your own analysis."
+
+ 5.4 Resources Required for Module 3:
+
+1.  `streamlit`: Core UI framework (`pip install streamlit`).
+2.  `plotly`, `matplotlib`, `mplfinance`: For charts and data visualization.
+3.  `playsound` or `pygame`: For audio alerts.
+4.  Custom sound files (MP3/WAV).
+5.  Color theme configuration file (JSON/YAML).
+6.  HTML/CSS knowledge (minimal for Streamlit, more for Dash customization).
+
+ 5.5 Benefits of Module 3:
+
+1.  Intuitive User Experience: Clean, clutter-free, and easy-to-navigate interface.
+2.  Enhanced Learning: Visualizations and clear signals aid in understanding market dynamics.
+3.  Reduced Emotional Impact: Color-coding, calm language, and appropriate audio alerts help manage trading emotions.
+4.  Quick Action & Overview: All critical information and actions are readily available on the dashboard.
+5.  Personalized Experience: Customizable settings and themes.
+6.  Accessibility: Hindi language support and responsive design cater to a broader user base.
+
+-----
+
+ 6. Module 4: AI Integration (Google Gemini - "Buddhi Ka Boost")
+
+Gemini API "Trader's Friend" ko uska "buddhimatta" pradaan karega. Yeh module traders ko human-like, contextual, aur emotional-sensitive guidance dega.
+
+ 6.1 Gemini API Integration & Prompt Engineering:
+
+1.  Python SDK: `google-generativeai` package ka upyog (`pip install google-generativeai`).
+2.  API Key Management: Gemini API Key `.env` file mein securely stored.
+3.  Dynamic Prompt Generation:
+       Prompts real-time market data (LTP, indicator values, market trend), active strategy rules, aur user's emotional state (if inferred) ke basis par dynamically generate kiye jaenge.
+       Contextual Information: Prompts mein historical price action, volatility, aur relevant news (if integrated) ko shamil kiya jaega.
+4.  Prompt Categories & Examples:
+       Strategy-Based Advice:
+           Input: `Stock: RELIANCE, LTP: 2905, Indicators: RSI: 68 (Strong Momentum), Supertrend: BUY, VWAP: Above, MACD: Bullish Crossover. Market Trend: Moderate Bullish. Strategy Active: "RSI-Supertrend Confluence". User wants BUY/SELL advice. Output in Hindi, max 50 words.`
+           Prompt: "Relianace ke liye live data ye hai: LTP [LTP], RSI [RSI\_VAL] (momentum [MOMENTUM\_STATE]), Supertrend [SUPERTREND\_SIGNAL], VWAP [VWAP\_STATE], MACD [MACD\_SIGNAL]. Overall market trend [MARKET\_TREND]. Meri strategy [STRATEGY\_NAME] active hai. Kya ye stock abhi kharidne layak hai? Agar haan, toh entry range, stop-loss aur targets kya hone chahiye? Emotions par kya dhyaan rakhna chahiye? 50 shabdon se kam mein saral Hindi mein samjhaao. 'Bilkul upar jayega hi jayega' jaise shabd use mat karna."
+       Emotional Guidance:
+           Input: `Current Trade: NIFTY CE, P&L: -₹X.X (Loss). User feeling: Fear/Panic. Market situation: High volatility, nearing support. User asks: "Should I hold or exit? How to control fear?"`
+           Prompt: "Ek Nifty CE trade mein [LOSS\_AMOUNT] ka nuksaan ho raha hai. User dar/panic mehsoos kar raha hai. Bazaar mein [VOLATILITY\_STATE] hai aur [SUPPORT\_STATE] ke kareeb hai. Kya mujhe hold karna chahiye ya abhi nikal jaana chahiye? Bhavnaon ko kaise control karun? Ek sanjeevak aur data-based salah do, 50 shabdon se kam."
+       Learning & Explanations:
+           Input: `User asks: "What is RSI divergence and how to identify it?"`
+           Prompt: "RSI divergence kya hota hai aur ise charts par kaise pehchante hain? Udaharan ke saath 50-70 shabdon mein saral Hindi mein samjhaao."
+       Discipline & Mindset:
+           Input: `Trigger: After profitable trade, user might feel overconfident.`
+           Prompt: "Profit book karne ke baad aksar trader mein overconfidence aa jata hai. Isse kaise bachein? Trading discipline par ek chota sa sujhav do, 30 shabdon se kam."
+5.  Temperature & Token Limits: Gemini API parameters (e.g., `temperature=0.7` for creativity, `max_tokens=100`) ko carefully tune kiya jaega for optimal, concise responses.
+
+ 6.2 Response Handling & Presentation:
+
+1.  Parsing Gemini's Output:
+       Gemini se receive hue text responses ko parse kiya jaega to extract key information (e.g., Analysis, Advice, Emotion message, Entry, SL, TP).
+       Regular expressions or simple string splitting for structured responses.
+2.  Display on UI:
+       AI ki salah ko UI par ek dedicated 'AI Insights' panel mein display kiya jaega.
+       Color-coding (e.g., Green for positive advice, Yellow for caution, Red for strong warning) will enhance clarity.
+3.  Integration with Notifications:
+       Crucial AI advice (e.g., entry/exit recommendations, emotional warnings) ko Telegram par bhi send kiya jaega.
+4.  Refined Language (Hindi/Hinglish):
+       Gemini ke responses ko ensure kiya jaega ki woh saral, samjhne mein aasan Hindi ya Hinglish mein hon.
+       Avoid complex jargon.
+       Maintain a calm, non-judgmental, and encouraging tone.
+
+ 6.3 Benefits of Module 4:
+
+1.  Human-Style Feedback: AI provides explanations and advice that resonate with human understanding, especially for beginners.
+2.  Enhanced Decision Making: AI acts as a second opinion, validating signals and providing contextual insights.
+3.  Emotional Resilience: Direct emotional guidance helps traders manage fear, greed, and overconfidence, fostering discipline.
+4.  Learning & Education: Simplifies complex market concepts, making the platform a powerful learning tool.
+5.  Personalized Experience: AI's responses are tailored to the user's specific context and emotional state.
+
+-----
+
+ 7. Module 5: Notifications Engine - "Aankh-Kaan of the System"
+
+Timely aur actionable notifications traders ko market se connected rakhengi, bhale hi woh system ke saamne na baithe hon.
+
+ 7.1 Telegram Bot Integration:
+
+1.  Bot Creation: @BotFather ke through Telegram bot setup (Bot Token).
+2.  Chat ID Management: User ko apna Chat ID system mein configure karne ki suvidha.
+3.  Python Library: `python-telegram-bot` ya `telepot` library for sending messages.
+4.  Bilingual Alert Messages:
+       Alerts provide detailed information in a clear, concise format, supporting Hinglish/Hindi.
+       Strong BUY/SELL Signal Alerts:
+        ```
+        📈 STRONG BUY SIGNAL! RELIANCE
+        📊 Entry Range: 2900 - 2910
+        Tgt : 2950 (TP1: 1.5% | R:R 1:2), 3000 (TP2: 3.5%)
+        SL : 2880 (Risk: 0.7%)
+        Reason: RSI 65 (strong momentum), Price above VWAP, Supertrend BUY signal, breaking resistance at 2905. Market Bullish.
+        केवल पेपर ट्रेड और एजुकेशन पर्पस के लिए | study_purpose
+        Important Note: We are not SEBI registered. Any trade updates are only for educational purposes. Always Remember: Investment is subject to market risk. Make sure to do your own analysis.
+        ```
+       SL Hit / TP Hit Alerts:
+           "✅ TARGET HIT\! \NIFTY CALL mein profit book kiya. +₹X.X profit. Apni strategy par vishwas rakhein. 🎯"
+           "❌ STOP-LOSS HIT\! \BANKNIFTY PUT mein -₹Y.Y loss. Small loss, big learning. Next opportunity ka intezaar karein. 🛑"
+       Market Trend Change Alerts:
+           "⚠️ MARKET ALERT: Nifty ab बेयरिश zone mein enter kar raha hai. Satark raho aur aggressive trades se bacho. 📉"
+       AI Guidance Alerts: Key emotional messages ya critical advice from Gemini.
+       Daily/Weekly Summaries: End-of-day/week performance reports for paper and live trades.
+5.  Configurable Notification Types: User control over which types of alerts they receive (e.g., only Strong Buy/Sell, or all alerts).
+
+ 7.2 UI Push Notifications & Audio Alerts:
+
+1.  In-App Pop-ups: Streamlit's `st.info`, `st.warning`, `st.error` for prominent, flashing pop-up notifications on the UI when signals are generated or events occur.
+2.  Desktop Push Notifications (using `plyer` or `win10toast`):
+       System-level desktop notifications for critical alerts, even when the UI is minimized.
+       Requires OS-specific modules.
+3.  Audio Alerts:
+       As detailed in Module 3, distinct sounds for various events (Buy, Sell, Danger, SL Hit, TP Hit, Good/Bad Running status).
+       Sounds will be clear, concise, and not overly disruptive.
+       Customizable sound files and volume controls.
+
+ 7.3 Resources Required for Module 5:
+
+1.  Telegram Bot Token & Chat ID.
+2.  `python-telegram-bot` or `telepot` library.
+3.  `plyer` (for cross-platform desktop notifications) or `win10toast` (for Windows).
+4.  `playsound` or `pygame` for audio.
+5.  Notification template files (text files or JSON for message structures).
+
+ 7.4 Benefits of Module 5:
+
+1.  Real-time & Remote Alerts: Users stay updated even when away from their screen, enabling remote trading.
+2.  Increased Confidence: Detailed reasons behind signals provide clarity and build trust.
+3.  Timely Action: Instant alerts allow for quick decision-making and execution.
+4.  Comprehensive Coverage: All critical market events and trade outcomes are notified.
+5.  Bilingual Support: Caters to Hindi-speaking users effectively.
+
+-----
+
+ 8. Module 6: Paper Trading vs. Live Mode - "Practice Ya Real Game"
+
+Yeh module users ko ek safe learning environment pradaan karega aur phir ek seamless transition real-money trading mein enable karega.
+
+ 8.1 Mode Switching & Configuration:
+
+1.  Prominent UI Toggle: Dashboard par ek clear ON/OFF switch (`is_live_mode = True/False`).
+2.  Visual Indicators: UI par clear visual indicators (e.g., a green "PAPER MODE" badge or a red "LIVE MODE" badge) to show the current active mode.
+3.  Confirmation Dialogs: Live mode mein switch karte waqt confirmation prompt, ensuring user is aware of real money involvement.
+
+ 8.2 Paper Trading Logic & Tracking:
+
+1.  Virtual Capital Management:
+       User ko initial virtual capital set karne ka option.
+       Virtual P\&L ko track kiya jaega.
+2.  Trade Simulation:
+       All signals generated, entries, SL hits, TP hits, and exits ko real-time market data par simulate kiya jaega.
+       No actual orders sent to broker.
+3.  Detailed Trade Logging (SQLite DB):
+       Each simulated trade ke liye comprehensive record store hoga:
+           `trade_id`, `instrument`, `trade_type` (BUY/SELL), `entry_time`, `entry_price`, `quantity`.
+           `exit_time`, `exit_price`, `pnl_absolute`, `pnl_percentage`.
+           `sl_hit` (True/False), `tp_hit` (True/False), `reason_for_exit`.
+           `strategy_used`, `signal_confidence`.
+4.  Performance Analytics for Paper Trades:
+       UI par `Total P&L`, `Win Rate`, `Loss Rate`, `Max Drawdown`, `Profit Factor` jaise metrics display honge.
+       Historical graphs of cumulative P\&L.
+5.  Learning Feedback Loop:
+       AI (Gemini) se specific feedback for paper trades (e.g., "Aapne is trade mein SL miss kiya. Agli baar apni strategy par bane rahein.").
+
+ 8.3 Live Trading Execution & Reconciliation:
+
+1.  Broker API Integration: Angel One SmartAPI ke `placeOrder`, `modifyOrder`, `cancelOrder`, `getOrderHistory`, `getPositions` methods ka use.
+2.  Order Routing: Signals se generate hue parameters ko Angel One ke order format mein convert karke order place karna.
+3.  Real-time Order Status Tracking:
+       Broker se order status updates (Pending, Open, Filled, Rejected, Cancelled) ko continuous monitor karna.
+       Order fills (executed price) ko database mein update karna.
+4.  Position Management:
+       Broker se current open positions ko fetch karke UI par display karna.
+       Real P\&L calculation based on executed trades and live market prices.
+5.  Error Handling for Live Trading:
+       API rejections, network issues, margin shortfalls jaise scenarios ko gracefully handle karna.
+       Critical errors ke liye immediate notifications.
+
+ 8.4 Resource Requirements for Module 6:
+
+1.  `SQLite3` for paper trade logs.
+2.  Angel One SmartAPI for live trading.
+3.  Configuration variable: `is_live_mode = True/False`.
+4.  Robust trade calculation logic (P\&L, slippage estimation).
+5.  Database table for `trades`.
+
+ 8.5 Benefits of Module 6:
+
+1.  Risk-Free Learning: New traders can practice and refine strategies without financial risk.
+2.  Confidence Building: Consistent success in paper trading builds confidence for live trading.
+3.  Same Interface, Different Mode: Users experience the same UI and features in both modes, minimizing learning curve.
+4.  Strategy Validation: Allows users to validate strategy performance in real market conditions (paper mode) before committing capital.
+5.  Historical Review: Detailed logs for both modes enable post-trade analysis and learning.
+
+-----
+
+ 9. Module 7: Deployment - "Trader's Friend Ko Hamesha Chalaao"
+
+System ko 24/7 chalane ke liye robust deployment ek critical step hai.
+
+ 9.1 Cloud Deployment Options (Scalability & Accessibility):
+
+1.  Render (Recommended for Free Tier):
+       Ease of Use: Simple deployment for Streamlit apps.
+       Free Tier: Offers free web services with some limitations (e.g., sleep after inactivity), ideal for initial testing.
+       Automatic Deployment: Connects directly with GitHub repo, auto-deploys on code pushes.
+2.  Heroku (Alternative Free Tier):
+       Similar to Render, widely used for Python apps.
+       May have similar free tier limitations.
+3.  Google Cloud Run / AWS ECS / Azure Container Instances (Paid/Free Credits):
+       Serverless Containers: Highly scalable, pay-per-use model.
+       Robustness: Enterprise-grade reliability and performance.
+       Learning Curve: Requires more knowledge of cloud services.
+       Cost: Free credits available, but long-term usage will incur costs.
+4.  Virtual Private Server (VPS) (e.g., DigitalOcean, Linode):
+       More control over the environment.
+       Requires manual setup and maintenance of OS, Python, etc.
+       Cost-effective for dedicated resources.
+
+ 9.2 Home-Based Deployment (for Dedicated Control):
+
+1.  Raspberry Pi:
+       Cost-Effective: Low initial hardware cost.
+       24/7 Operation: Low power consumption, can run continuously.
+       Control: Full control over the hardware and software environment.
+       Limitations: Dependent on home internet/power, less powerful than cloud VMs. Requires some technical setup.
+
+ 9.3 Deployment Best Practices:
+
+1.  GitHub Repository: Full code will be hosted on GitHub, with proper `.gitignore` (excluding `.env`, sensitive data).
+2.  `requirements.txt`: All Python dependencies specified for easy installation on the server.
+3.  `Procfile` (for Heroku/Render): Defines how the Streamlit app starts.
+4.  Environment Variables: Sensitive configs passed as environment variables in the deployment environment, not hardcoded.
+5.  Process Management:
+       `pm2` (Node.js ecosystem, but good for managing Python processes) or `forever` for continuous running and auto-restart on crashes.
+       Ensures the system is always up, handling unexpected errors.
+6.  Monitoring & Alerts:
+       Basic system monitoring (e.g., CPU, RAM usage).
+       Alerts (via Telegram) if the application crashes or goes offline.
+
+ 9.4 Benefits of Module 7:
+
+1.  24/7 Operation: System remains active even when the user's local machine is off, ensuring no missed signals.
+2.  Accessibility: Access the UI from any device with a browser, behaving like a web application.
+3.  Reliability: Cloud platforms offer high uptime and redundancy.
+4.  Scalability: Easily scale resources as the user base grows or system complexity increases.
+
+-----
+
+ 10. Final Thoughts: Trading with Tech + Tanav Control - A New Era
+
+"Trader's Friend" is not just another trading tool; it's a paradigm shift in how retail traders interact with the market. By synergizing cutting-edge AI (Google Gemini), robust technical analysis, real-time data, and a deeply empathetic, user-centric UI, we are creating a platform that empowers users to:
+
+1.  Make Emotion-Free Decisions: AI's objective advice acts as a mental anchor, reducing impulsive actions.
+2.  Understand Signals in Hindi: Language no longer a barrier, enabling broader adoption and deeper comprehension.
+3.  Empower Beginners: Simplified explanations and a learning-focused approach make trading accessible to all.
+4.  Master Market Psychology: Consistent emotional guidance helps build discipline and a resilient trading mindset.
+5.  Achieve Data-Driven & AI-Guided Excellence: Every decision is backed by intelligent analysis, not guesswork.
+
+This project is ambitious, but with the modular design and the capabilities of the Blackbox AI agent, we are confident in its successful development. We are ready to provide the code, prompts, and UI setup guidance needed to bring "Trader's Friend" to life.
+
+Let's embark on this journey to empower traders with technology, knowledge, and unparalleled peace of mind. 🚀
+
+-----

@@ -1,0 +1,77 @@
+You are to build a real-time, AI-assisted trading dashboard for the Indian stock market (NSE) focused on F&O segments like Nifty, BankNifty, FinNifty, and stock options.
+
+🚀 CORE OBJECTIVES:
+1. Track all live segments with key indicators:
+   - Volatility
+   - RSI, MACD, EMA crossover
+   - Option chain (OI buildup, PCR)
+   - Live price feed
+   - Global markets sentiment (SGX Nifty, Nasdaq, etc.)
+   - News-based sentiment from economic & political headlines
+
+2. Use AI to generate:
+   - Segment ranking based on strength/momentum
+   - Live recommendation messages like:
+     “Nifty CE preferred right now. RSI: 76, strong upside. Suggested: 25800 CE, Premium ₹40, Lot: 2 based on your capital.”
+   - Emotional intelligence messages for Telegram like:
+     “Don’t panic sell, RSI is normalizing. Hold tight!”
+
+3. Side panel should show:
+   - Real-time scrolling messages (chat-style)
+   - Live buy/sell signals and reasoning
+   - Push notifications for each update (buy, sell, update SL)
+
+4. Capital-aware planning:
+   - Ask user capital on launch (editable anytime)
+   - Based on capital, suggest optimal lot size
+   - Auto-calculate stoploss, target, trailing
+
+5. Backtesting System (User Input Based):
+   - User selects a script (e.g., Nifty 25200 PE)
+   - Defines timeframe (e.g., 1 July, 9:30–11:00 AM)
+   - System simulates paper trade using historical data
+   - Generates full trade log:
+     - Buy signal, sell signal
+     - SL hits or TP achieved
+     - Final P&L
+   - Results shown + sent to Telegram + stored in database
+
+6. User interaction through:
+   - Right side messaging console
+   - Telegram bot connection
+   - Alert system (Desktop & Telegram)
+
+7. Admin panel should allow:
+   - Strategy update (e.g., RSI > 75 = Buy signal)
+   - Time-based market mood messages (Pre-market cues)
+   - Custom notes for specific events (budget day, Fed meeting, etc.)
+
+📦 DATABASE (MySQL):
+   - Store all trades, signals, user actions, strategy logs
+   - Table: signals_log, strategy_config, capital_logs, backtest_results
+
+📚 USE STACK:
+   - Python (for backend logic + data fetching)
+   - FastAPI / Flask (for APIs)
+   - WebSocket (for live feed)
+   - React or Streamlit (for UI)
+   - SQLAlchemy + MySQL
+   - Integration with Telegram Bot API
+   - Optional: Gemini AI for text generation
+
+💡 EMOTION CONTROL:
+   - Connect Gemini or GPT to analyze trade behavior
+   - Send motivational messages to Telegram like:
+     “You held your nerve, and it paid off. Bravo!”  
+     or  
+     “SL hit. That’s okay. Strategy > Emotions.”
+
+🧪 Testing Feature:
+   - Enable simulation mode for any past date & timeframe
+   - Test the same strategy logic with that past market
+   - Report success/failure clearly
+   - All visible via dashboard and Telegram
+
+The goal is to maximize profit probability (>90%) using automated, AI-driven market analysis and disciplined position management. The user should not have to interpret candles or data manually — all intelligence must be visual + explained.
+
+Start by creating the backend architecture and a basic UI template.

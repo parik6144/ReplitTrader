@@ -1,0 +1,23 @@
+# Core Web Framework
+streamlit>=1.46.1
+plotly>=6.2.0
+pandas>=2.3.0
+numpy>=2.3.1
+
+# API and HTTP
+requests>=2.32.4
+websocket-client>=1.8.0
+
+# Database
+sqlalchemy>=2.0.41
+pymysql>=1.1.1
+mysql-connector-python>=9.3.0
+
+# Authentication and Security
+pyotp>=2.9.0
+python-dotenv>=1.1.1
+
+# Utilities
+pathlib
+
+logging
